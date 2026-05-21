@@ -1,0 +1,41 @@
+{
+  "document": {
+    "name": "Synthetic Research Poster Starter",
+    "width_px": 2400,
+    "height_px": 1600,
+    "resolution": 150,
+    "background": "#F8F7F2"
+  },
+  "palette": {
+    "ink": "#172024",
+    "muted": "#5D686C",
+    "accent": "#006C67",
+    "accent2": "#B05A1C",
+    "panel": "#FFFFFF",
+    "line": "#D8D6CD"
+  },
+  "content": {
+    "title": "Synthetic Research Workflow Poster",
+    "subtitle": "A layered Photoshop JSX starter using fictional content and placeholder visuals.",
+    "authors": "Alex Smith, Mina Rivera, Jordan Lee",
+    "affiliation": "Fictional Research Tools Lab",
+    "sections": [
+      {
+        "heading": "Motivation",
+        "body": "Public poster templates should be editable, layered, and safe to share without exposing private data."
+      },
+      {
+        "heading": "Workflow",
+        "body": "Generate layer groups, section panels, figure placeholders, and export previews from a repeatable script."
+      },
+      {
+        "heading": "Checks",
+        "body": "Review typography, figure placement, color contrast, captions, QR code targets, and final export settings."
+      },
+      {
+        "heading": "Takeaway",
+        "body": "Keep automation generic. Put real research content only in private project copies."
+      }
+    ]
+  }
+}

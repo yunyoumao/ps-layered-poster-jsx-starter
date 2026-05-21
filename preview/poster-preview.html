@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Synthetic Poster Preview</title>
+  <style>
+    body {
+      margin: 0;
+      background: #ece9df;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #172024;
+    }
+    .poster {
+      width: 1200px;
+      height: 800px;
+      margin: 32px auto;
+      background: #f8f7f2;
+      border-top: 9px solid #006c67;
+      box-shadow: 0 24px 70px rgba(23, 32, 36, 0.18);
+      padding: 56px 60px;
+      box-sizing: border-box;
+    }
+    h1 {
+      margin: 0;
+      font-size: 46px;
+      line-height: 1.05;
+    }
+    .subtitle {
+      margin: 16px 0 0;
+      color: #5d686c;
+      font-size: 22px;
+    }
+    .authors {
+      margin-top: 18px;
+      color: #006c67;
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 34px;
+      margin-top: 48px;
+    }
+    .panel {
+      min-height: 165px;
+      background: #fff;
+      border: 1px solid #d8d6cd;
+      border-left: 7px solid #006c67;
+      padding: 24px;
+    }
+    .panel:nth-child(even) {
+      border-left-color: #b05a1c;
+    }
+    .panel h2 {
+      margin: 0 0 14px;
+      font-size: 25px;
+    }
+    .panel p {
+      margin: 0;
+      color: #5d686c;
+      font-size: 18px;
+      line-height: 1.45;
+    }
+    .footer {
+      display: grid;
+      grid-template-columns: 1fr 160px 260px;
+      gap: 24px;
+      margin-top: 40px;
+      align-items: center;
+    }
+    .figure {
+      background: #eef7f5;
+      color: #006c67;
+      padding: 26px;
+      font-size: 18px;
+    }
+    .qr {
+      height: 118px;
+      background:
+        linear-gradient(90deg, #172024 18px, transparent 18px) 0 0 / 36px 36px,
+        linear-gradient(#172024 18px, transparent 18px) 0 0 / 36px 36px,
+        #fff;
+      border: 1px solid #d8d6cd;
+    }
+    .note {
+      color: #5d686c;
+      font-size: 17px;
+    }
+  </style>
+</head>
+<body>
+  <main class="poster">
+    <h1>Synthetic Research Workflow Poster</h1>
+    <p class="subtitle">A layered Photoshop JSX starter using fictional content and placeholder visuals.</p>
+    <p class="authors">Alex Smith, Mina Rivera, Jordan Lee | Fictional Research Tools Lab</p>
+    <section class="grid">
+      <article class="panel"><h2>Motivation</h2><p>Public poster templates should be editable, layered, and safe to share without exposing private data.</p></article>
+      <article class="panel"><h2>Workflow</h2><p>Generate layer groups, section panels, figure placeholders, and export previews from a repeatable script.</p></article>
+      <article class="panel"><h2>Checks</h2><p>Review typography, figure placement, color contrast, captions, QR code targets, and final export settings.</p></article>
+      <article class="panel"><h2>Takeaway</h2><p>Keep automation generic. Put real research content only in private project copies.</p></article>
+    </section>
+    <section class="footer">
+      <div class="figure">Figure placeholder: replace with public-safe or approved research visuals.</div>
+      <div class="qr" aria-label="Decorative synthetic QR placeholder"></div>
+      <div class="note">QR / contact placeholder</div>
+    </section>
+  </main>
+</body>
+</html>
