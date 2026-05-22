@@ -8,9 +8,9 @@ It is intended as a clean starting point for design automation experiments, not 
 
 ## What It Includes
 
-- `jsx/create_layered_poster.jsx`: creates a layered poster document in Photoshop.
+- `jsx/create_layered_poster.jsx`: reads `templates/poster-layout.json` and creates a layered poster document in Photoshop.
 - `jsx/export_flat_preview.jsx`: exports a flattened PNG preview from the active document.
-- `templates/poster-layout.json`: public-safe source layout data.
+- `templates/poster-layout.json`: public-safe source layout data used by the JSX script and browser preview.
 - `preview/poster-preview.html`: browser preview of the same synthetic layout.
 - Validation tests and public-asset scan.
 

@@ -7,6 +7,28 @@
 
 app.displayDialogs = DialogModes.NO;
 
+function readTextFile(file) {
+  file.encoding = "UTF-8";
+  if (!file.open("r")) {
+    throw new Error("Could not open layout file: " + file.fsName);
+  }
+  var text = file.read();
+  file.close();
+  return text;
+}
+
+function loadLayout() {
+  if (typeof JSON === "undefined" || typeof JSON.parse !== "function") {
+    throw new Error("This Photoshop scripting environment does not provide JSON.parse.");
+  }
+  var scriptFile = new File($.fileName);
+  var layoutFile = new File(scriptFile.parent.parent.fsName + "/templates/poster-layout.json");
+  if (!layoutFile.exists) {
+    throw new Error("Layout file not found: " + layoutFile.fsName);
+  }
+  return JSON.parse(readTextFile(layoutFile));
+}
+
 function hexToSolidColor(hex) {
   var color = new SolidColor();
   var clean = hex.replace("#", "");
@@ -37,26 +59,19 @@ function makeTextLayer(doc, name, text, x, y, size, colorHex) {
   return layer;
 }
 
-function createPoster() {
-  var width = 2400;
-  var height = 1600;
-  var doc = app.documents.add(width, height, 150, "Synthetic Research Poster Starter", NewDocumentMode.RGB, DocumentFill.WHITE);
+function createPoster(layout) {
+  var documentConfig = layout.document;
+  var content = layout.content;
+  var palette = layout.palette;
+  var width = documentConfig.width_px;
+  var height = documentConfig.height_px;
+  var doc = app.documents.add(width, height, documentConfig.resolution, documentConfig.name, NewDocumentMode.RGB, DocumentFill.WHITE);
 
-  var palette = {
-    bg: "#F8F7F2",
-    ink: "#172024",
-    muted: "#5D686C",
-    accent: "#006C67",
-    accent2: "#B05A1C",
-    panel: "#FFFFFF",
-    line: "#D8D6CD"
-  };
-
-  makeRectLayer(doc, "00 Background", 0, 0, width, height, palette.bg);
+  makeRectLayer(doc, "00 Background", 0, 0, width, height, documentConfig.background);
   makeRectLayer(doc, "01 Header Accent", 0, 0, width, 18, palette.accent);
-  makeTextLayer(doc, "02 Title", "Synthetic Research Workflow Poster", 120, 130, 62, palette.ink);
-  makeTextLayer(doc, "03 Subtitle", "Layered Photoshop JSX starter with fictional content and placeholder visuals.", 120, 205, 30, palette.muted);
-  makeTextLayer(doc, "04 Authors", "Alex Smith, Mina Rivera, Jordan Lee  |  Fictional Research Tools Lab", 120, 260, 24, palette.accent);
+  makeTextLayer(doc, "02 Title", content.title, 120, 130, 62, palette.ink);
+  makeTextLayer(doc, "03 Subtitle", content.subtitle, 120, 205, 30, palette.muted);
+  makeTextLayer(doc, "04 Authors", content.authors + "  |  " + content.affiliation, 120, 260, 24, palette.accent);
 
   var cardW = 1030;
   var cardH = 430;
@@ -65,19 +80,21 @@ function createPoster() {
   var topY = 360;
   var bottomY = 870;
 
-  var cards = [
-    ["10 Motivation Panel", leftX, topY, "Motivation", "Public poster templates should be editable, layered, and safe to share without exposing private data."],
-    ["20 Workflow Panel", rightX, topY, "Workflow", "Generate layer groups, section panels, figure placeholders, and export previews from a repeatable script."],
-    ["30 Checks Panel", leftX, bottomY, "Checks", "Review typography, figure placement, color contrast, captions, QR code targets, and final export settings."],
-    ["40 Takeaway Panel", rightX, bottomY, "Takeaway", "Keep automation generic. Put real research content only in private project copies."]
+  var positions = [
+    ["10", leftX, topY],
+    ["20", rightX, topY],
+    ["30", leftX, bottomY],
+    ["40", rightX, bottomY]
   ];
 
-  for (var i = 0; i < cards.length; i += 1) {
-    var card = cards[i];
-    makeRectLayer(doc, card[0] + " Background", card[1], card[2], cardW, cardH, palette.panel);
-    makeRectLayer(doc, card[0] + " Rule", card[1], card[2], 14, cardH, i % 2 === 0 ? palette.accent : palette.accent2);
-    makeTextLayer(doc, card[0] + " Heading", card[3], card[1] + 42, card[2] + 76, 36, palette.ink);
-    makeTextLayer(doc, card[0] + " Body", card[4], card[1] + 42, card[2] + 142, 24, palette.muted);
+  for (var i = 0; i < content.sections.length && i < positions.length; i += 1) {
+    var section = content.sections[i];
+    var position = positions[i];
+    var layerPrefix = position[0] + " " + section.heading + " Panel";
+    makeRectLayer(doc, layerPrefix + " Background", position[1], position[2], cardW, cardH, palette.panel);
+    makeRectLayer(doc, layerPrefix + " Rule", position[1], position[2], 14, cardH, i % 2 === 0 ? palette.accent : palette.accent2);
+    makeTextLayer(doc, layerPrefix + " Heading", section.heading, position[1] + 42, position[2] + 76, 36, palette.ink);
+    makeTextLayer(doc, layerPrefix + " Body", section.body, position[1] + 42, position[2] + 142, 24, palette.muted);
   }
 
   makeRectLayer(doc, "50 Figure Placeholder", 120, 1340, 1560, 150, "#EEF7F5");
@@ -86,4 +103,4 @@ function createPoster() {
   makeTextLayer(doc, "61 QR Note", "QR / contact placeholder", 1990, 1426, 24, palette.muted);
 }
 
-createPoster();
+createPoster(loadLayout());
